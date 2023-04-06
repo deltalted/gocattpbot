@@ -24,14 +24,22 @@ func main() {
 		return
 	}
 
-	b.Handle("/start", func(c tele.Context) error {
-		return c.Send("Hello!")
-	})
+	b.Handle("/start", startHander)
 
 	b.Handle(tele.OnText, textHandler)
 	b.Handle(tele.OnQuery, inlineQueryHandler)
 
 	b.Start()
+}
+
+func startHander(ctx tele.Context) error {
+	text := "Send pictures of cats instead of HTTP status codes (see http.cat)."
+	text += "\n\n"
+	text += "Send any message to start!"
+	text += "\n\n"
+	text += "Original idea from https://github.com/KnorpelSenf/cattpbot (Author: @delta_alted)"
+
+	return ctx.Send(text, tele.NoPreview)
 }
 
 func textHandler(ctx tele.Context) error {
